@@ -1,6 +1,6 @@
 ---
-title: YouTube Video to Text
-emoji: 🎬
+title: Audio Video to Text
+emoji: 🎙️
 colorFrom: blue
 colorTo: purple
 sdk: gradio
@@ -10,23 +10,24 @@ pinned: false
 license: mit
 ---
 
-# YouTube Video to Text Transcription
+# Audio/Video to Text Transcription
 
-A Gradio-based application that converts YouTube videos to text using OpenAI's Whisper speech recognition model.
+A Gradio-based application that converts audio and video files to text using OpenAI's Whisper speech recognition model.
 
 ## Features
 
-- **YouTube URL Input**: Simply paste any YouTube video URL
+- **File Upload**: Upload audio or video files directly
+- **Multiple Formats**: Supports MP3, WAV, M4A, MP4, WebM, and more
 - **Multiple Model Sizes**: Choose from tiny, base, small, medium, or large Whisper models
 - **Download Transcript**: Get your transcript as a downloadable TXT file
 - **No Permanent Storage**: Files are processed temporarily and not stored on the server
 
 ## How to Use
 
-1. Paste a YouTube video URL into the input field
+1. Upload an audio or video file
 2. Select a Whisper model size:
    - `tiny`: Fastest, least accurate
-   - `base`: Good balance for short videos
+   - `base`: Good balance for short files
    - `small`: Better accuracy
    - `medium`: High accuracy
    - `large`: Best accuracy, slowest
@@ -36,7 +37,6 @@ A Gradio-based application that converts YouTube videos to text using OpenAI's W
 ## Technical Details
 
 - **Speech Recognition**: OpenAI Whisper
-- **Audio Download**: yt-dlp
 - **Interface**: Gradio
 - **Hosting**: Hugging Face Spaces
 
