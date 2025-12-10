@@ -14,6 +14,8 @@ license: mit
 
 A Gradio-based application that converts audio and video files to text using OpenAI's Whisper speech recognition model.
 
+url : https://huggingface.co/spaces/HsuPeiChun/Video-to-Text-App
+
 ## Features
 
 - **File Upload**: Upload audio or video files directly
