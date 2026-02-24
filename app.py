@@ -59,10 +59,10 @@ def create_interface():
 
         with gr.Row():
             with gr.Column(scale=2):
-                audio_input = gr.Audio(
+                audio_input = gr.File(
                     label="Upload Audio/Video File",
-                    type="filepath",
-                    sources=["upload"]
+                    file_types=[".mp3", ".wav", ".m4a", ".mp4", ".webm", ".ogg", ".flac", ".aac"],
+                    type="filepath"
                 )
 
                 model_dropdown = gr.Dropdown(
