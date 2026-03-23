@@ -149,7 +149,7 @@ def create_interface():
 
         with gr.Tabs():
             # Tab 1: File Upload
-            with gr.TabItem("Upload File"):
+            with gr.Tab("Upload File"):
                 audio_input = gr.File(
                     label="Upload Audio/Video File",
                     file_types=[".mp3", ".wav", ".m4a", ".mp4", ".webm", ".ogg", ".flac", ".aac"],
@@ -158,7 +158,7 @@ def create_interface():
                 upload_btn = gr.Button("Transcribe", variant="primary")
 
             # Tab 2: YouTube URL
-            with gr.TabItem("YouTube URL"):
+            with gr.Tab("YouTube URL"):
                 youtube_input = gr.Textbox(
                     label="YouTube URL",
                     placeholder="https://www.youtube.com/watch?v=...",
@@ -205,4 +205,4 @@ def create_interface():
 
 if __name__ == "__main__":
     demo = create_interface()
-    demo.launch()
+    demo.launch(server_name="0.0.0.0", share=False)
