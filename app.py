@@ -140,6 +140,12 @@ def create_interface():
             """
         )
 
+        input_mode = gr.Radio(
+            choices=["Upload File", "YouTube URL"],
+            value="Upload File",
+            label="Input Mode"
+        )
+
         model_dropdown = gr.Dropdown(
             choices=["tiny", "base", "small", "medium", "large"],
             value="base",
@@ -147,45 +153,54 @@ def create_interface():
             info="tiny: fastest, large: most accurate"
         )
 
-        with gr.Tabs():
-            # Tab 1: File Upload
-            with gr.Tab("Upload File"):
-                audio_input = gr.File(
-                    label="Upload Audio/Video File",
-                    file_types=[".mp3", ".wav", ".m4a", ".mp4", ".webm", ".ogg", ".flac", ".aac"],
-                    type="filepath"
-                )
-                upload_btn = gr.Button("Transcribe", variant="primary")
-
-            # Tab 2: YouTube URL
-            with gr.Tab("YouTube URL"):
-                youtube_input = gr.Textbox(
-                    label="YouTube URL",
-                    placeholder="https://www.youtube.com/watch?v=...",
-                )
-                youtube_btn = gr.Button("Transcribe from YouTube", variant="primary")
-
-        with gr.Row():
-            with gr.Column():
-                output_text = gr.Textbox(
-                    label="Transcript",
-                    lines=15,
-                    show_copy_button=True
-                )
-                download_file = gr.File(
-                    label="Download Transcript",
-                    visible=True
-                )
-
-        upload_btn.click(
-            fn=transcribe_audio,
-            inputs=[audio_input, model_dropdown],
-            outputs=[output_text, download_file]
+        # File upload input
+        audio_input = gr.File(
+            label="Upload Audio/Video File",
+            file_types=[".mp3", ".wav", ".m4a", ".mp4", ".webm", ".ogg", ".flac", ".aac"],
+            type="filepath",
+            visible=True
         )
 
-        youtube_btn.click(
-            fn=transcribe_youtube,
-            inputs=[youtube_input, model_dropdown],
+        # YouTube URL input
+        youtube_input = gr.Textbox(
+            label="YouTube URL",
+            placeholder="https://www.youtube.com/watch?v=...",
+            visible=False
+        )
+
+        transcribe_btn = gr.Button("Transcribe", variant="primary")
+
+        def toggle_input(mode):
+            return (
+                gr.update(visible=(mode == "Upload File")),
+                gr.update(visible=(mode == "YouTube URL")),
+            )
+
+        input_mode.change(
+            fn=toggle_input,
+            inputs=[input_mode],
+            outputs=[audio_input, youtube_input]
+        )
+
+        output_text = gr.Textbox(
+            label="Transcript",
+            lines=15,
+            show_copy_button=True
+        )
+        download_file = gr.File(
+            label="Download Transcript",
+            visible=True
+        )
+
+        def transcribe_dispatch(mode, audio_file, youtube_url, model_size, progress=gr.Progress()):
+            if mode == "YouTube URL":
+                return transcribe_youtube(youtube_url, model_size, progress)
+            else:
+                return transcribe_audio(audio_file, model_size, progress)
+
+        transcribe_btn.click(
+            fn=transcribe_dispatch,
+            inputs=[input_mode, audio_input, youtube_input, model_dropdown],
             outputs=[output_text, download_file]
         )
 
